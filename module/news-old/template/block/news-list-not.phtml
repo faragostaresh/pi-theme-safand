@@ -1,0 +1,18 @@
+<div class="news-block news-list-block">
+	<ul class="list-inline clearfix">
+		<?php foreach($block['resources'] as $story) { ?>
+		<?php if ($story['image']) { ?>
+		<li class="col-24md">
+            <a title="<?php echo $this->escape($story['title']); ?>" href="<?php echo $this->escape($story['storyUrl']); ?>">
+                <img class="img-circle img-responsive" src="<?php echo $this->escape($story['thumbUrl']); ?>" alt="<?php echo $this->escape($story['title']); ?>" />
+            </a>
+		</li>
+		<?php } ?>
+		<?php } ?>
+	</ul>
+	<?php if ($block['showblockmore']) { ?>
+    <div class="itemBlockLink">
+    	<a title="<?php echo _b('Read More'); ?>" href="<?php echo $block['linkblockmore']; ?>"><?php echo _b('Read More'); ?></a>
+    </div>
+	<?php } ?>
+</div>

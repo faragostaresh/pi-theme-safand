@@ -1,0 +1,39 @@
+<ul class="nav navbar-nav">
+    <?php if (!$block['user']['uid']) { ?>
+        <li>
+            <a title="ورود" href="<?php echo $block['user']['login']; ?>"><i class="fa fa-sign-in"></i> ورود</a>
+        </li>
+        <li>
+            <a title="ثبت نام" href="<?php echo $block['user']['register']; ?>"><i class="fa fa-arrow-circle-down"></i> ثبت نام</a>
+        </li>
+    <?php } else {  ?>
+                <li class="dropdown">
+                    <a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
+                        <?php echo $block['user']['avatar']; ?>
+                        <?php echo _escape($block['user']['name']); ?>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
+                        <li></li>
+                        <li><a title="فهرست علاقه مندی ها" href="https://www.safand.com/favourite">فهرست علاقه مندی ها</a></li>
+                        <li><a title="تنظیمات حساب کاربری" href="https://www.safand.com/user/account/">تنظیمات حساب کاربری</a></li>
+                        <li><a title="تغییر کلمه عبور" href="https://www.safand.com/user/password/">تغییر کلمه عبور</a></li>
+                        <li><a title="تغییر آواتار" href="https://www.safand.com/user/avatar/">تغییر آواتار</a></li>
+                        <li><a title="به روز کردن اطلاعات ثبت سفارش" href="https://www.safand.com/user/profile/edit.profile/group/1">به روز کردن اطلاعات ثبت سفارش</a></li>
+                    </ul>
+                </li>
+        <li>
+            <a title="پیگیری سفارش ها" href="https://www.safand.com/order"><i class="fa fa-user"></i> پیگیری سفارش ها</a>
+        </li>
+<?php if (isset($block['user']['message'])) { ?>
+        <li>
+             <a id="member-message" href="https://www.safand.com/message" title="<?php echo _b('Message'); ?>">
+                <?php echo _b('Message'); ?> <span class="badge"><?php echo $block['user']['count']; ?></span>
+            </a>
+        </li>
+        <?php } ?>
+        <li>
+            <a title="خروج" href="<?php echo $block['user']['logout']; ?>"><i class="fa fa-sign-out"></i> خروج</a>
+        </li>
+    <?php } ?>
+</ul>

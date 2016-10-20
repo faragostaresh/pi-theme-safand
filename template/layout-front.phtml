@@ -1,0 +1,1144 @@
+<?php
+// Set doctype explicitly if it is not `HTML4_LOOSE`, i.e. 'HTML 4.01 Transitional'
+$this->doctype('HTML5');
+
+// Load translation data
+$this->i18nTheme();
+
+//HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
+$this->js(array(
+    pi::url('static/js/html5shiv.js') => array(
+        'conditional' => 'lt IE 9'
+    ),
+    pi::url('static/js/respond.min.js') => array(
+        'conditional' => 'lt IE 9'
+    ),
+));
+
+// Load jQuery
+$this->jquery();
+
+// Load Bootstrap css/js and font-awesome
+$this->bootstrap(array(
+    'js/bootstrap.min.js',
+    'font-awesome/css/font-awesome.min.css'
+));
+
+// Load front.css
+$this->css($this->assetTheme('css/front.css'));
+
+// Load localization css
+$this->css($this->assetLocale('locale.css'));
+
+// Load front.js on footer
+//$this->js($this->assetTheme('js/front.js'));
+
+// Apple icons
+// Apple icon for iphone
+$this->headLink(array(
+    'rel'   => 'apple-touch-icon',
+    'href'  => $this->assetTheme('image/touch-icon-iphone.png')
+));
+// Apple icon for ipad
+$this->headLink(array(
+    'rel'   => 'apple-touch-icon',
+    'sizes' => '72x72',
+    'href'  => $this->assetTheme('image/touch-icon-ipad.png')
+));
+// Apple icon for iphone retina
+$this->headLink(array(
+    'rel'   => 'apple-touch-icon',
+    'sizes' => '114x114',
+    'href'  => $this->assetTheme('image/touch-icon-iphone-retina.png')
+));
+// Apple icon for ipad retina
+$this->headLink(array(
+    'rel'   => 'apple-touch-icon',
+    'sizes' => '114x114',
+    'href'  => $this->assetTheme('image/touch-icon-ipad-retina.png')
+));
+
+// Meta Viewport Tag
+//$this->headMeta('width=device-width, initial-scale=1.0', 'viewport');
+
+// Explicitly load favicon
+$this->headLink(array(
+    'rel'   => 'shortcut icon',
+    'href'  => $this->favicon(),
+));
+
+// Load google analytics code
+$this->ga();
+
+// Get module name
+$module = Pi::service('module')->current();
+
+// Get navigation
+$navigation = $this->nav('front');
+
+// Get block
+$blocks = $this->blocks();
+$blockTemplate = $this->template('block');
+
+// Get breadcrumbs
+$breadcrumbs = $this->breadcrumb(
+    array('prefix' => array(
+        array(
+            'label' => __('Home'),
+            'href' => Pi::url($this->url('home'))
+        )
+    ))
+);
+
+// Get platform
+$platform = Pi::service('browser')->getPlatform();
+?>
+<!DOCTYPE HTML>
+<html lang="<?php echo $locale; ?>">
+<head>
+    <meta charset="<?php echo $charset; ?>">
+    <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+</head>
+<body id="pi-<?php echo $module; ?><?php if (in_array($platform, array('Android', 'Ios', 'iPhone', 'iPad'))) { echo ' pi-mobile';} ?>" class="pi-locale-<?php echo $locale; ?>" itemscope itemtype="http://schema.org/WebPage">
+<header class="pi-header">
+    <div class="pi-header-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="clearfix col-xs-12">
+                        <?php echo $this->widget('system-user-bar'); ?>
+                    </div>
+                    <div class="navbar-form col-xs-12">
+                        <?php echo $this->widget('search-search'); ?>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="pi-header-logo text-right">
+                        <?php if ($module == 'system') { ?>
+                            <h1 itemprop="name">
+                                <a title="<?php echo _escape($sitename); ?>" href="<?php echo Pi::url($this->url('home')); ?>">
+                                    <img src="<?php echo $this->logo(); ?>" alt="<?php echo _escape($sitename); ?>">
+                                </a>
+                            </h1>
+                        <?php } else { ?>
+                            <h2 itemprop="name">
+                                <a title="<?php echo _escape($sitename); ?>" href="<?php echo Pi::url($this->url('home')); ?>">
+                                    <img src="<?php echo $this->logo(); ?>" alt="<?php echo _escape($sitename); ?>">
+                                </a>
+                            </h2>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <nav class="navbar navbar-inverse yamm" itemscope itemtype="http://schema.org/SiteNavigationElement">
+                    <div class="navbar-header">
+                        <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li itemprop="name">
+                                <a itemprop="url" title="صفحه اول" href="<?php echo Pi::url($this->url('home')); ?>"><i class="fa fa-home" aria-hidden="true"></i> صفحه اول</a>
+                            </li>
+                            <li class="dropdown yamm-fw">
+                                <a aria-expanded="false" itemprop="url" title="برند ها" data-toggle="dropdown" class="dropdown-toggle"><span itemprop="name"><i class="fa fa-gift" aria-hidden="true"></i> برند ها</span> <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li class="grid-menu">
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                <ul class="list-unstyled">
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/a" title="A">
+                                                            <h5 class="p-name" itemprop="name title">A</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/aigner" title="Aigner">
+                                                            <h5 class="p-name" itemprop="name title">Aigner</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/ajmal" title="Ajmal">
+                                                            <h5 class="p-name" itemprop="name title">Ajmal</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/alfred-dunhill" title="Alfred Dunhill">
+                                                            <h5 class="p-name" itemprop="name title">Alfred Dunhill</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/amouage" title="Amouage">
+                                                            <h5 class="p-name" itemprop="name title">Amouage</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/angel-schlesser" title="Angel Schlesser">
+                                                            <h5 class="p-name" itemprop="name title">Angel Schlesser</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/antonio-banderas" title="Antonio Banderas">
+                                                            <h5 class="p-name" itemprop="name title">Antonio Banderas</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/aramis" title="Aramis">
+                                                            <h5 class="p-name" itemprop="name title">Aramis</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/armand-basi" title="Armand Basi">
+                                                            <h5 class="p-name" itemprop="name title">Armand Basi</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/axis" title="Axis">
+                                                            <h5 class="p-name" itemprop="name title">Axis</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/azzaro" title="Azzaro">
+                                                            <h5 class="p-name" itemprop="name title">Azzaro</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/b" title="B">
+                                                            <h5 class="p-name" itemprop="name title">B</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/baldessarini" title="Baldessarini">
+                                                            <h5 class="p-name" itemprop="name title">Baldessarini</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/balmaso" title="Balmaso">
+                                                            <h5 class="p-name" itemprop="name title">Balmaso</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/bebe" title="Bebe">
+                                                            <h5 class="p-name" itemprop="name title">Bebe</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/benetton" title="Benetton">
+                                                            <h5 class="p-name" itemprop="name title">Benetton</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/bentley" title="Bentley">
+                                                            <h5 class="p-name" itemprop="name title">Bentley</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/beverly-hills" title="Beverly Hills">
+                                                            <h5 class="p-name" itemprop="name title">Beverly Hills</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/beyonce" title="Beyonce">
+                                                            <h5 class="p-name" itemprop="name title">Beyonce</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/bijan" title="Bijan">
+                                                            <h5 class="p-name" itemprop="name title">Bijan</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/britney-spears" title="Britney Spears">
+                                                            <h5 class="p-name" itemprop="name title">Britney Spears</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/bugatti" title="Bugatti">
+                                                            <h5 class="p-name" itemprop="name title">Bugatti</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/burberry" title="Burberry">
+                                                            <h5 class="p-name" itemprop="name title">Burberry</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/bvlgari" title="Bvlgari">
+                                                            <h5 class="p-name" itemprop="name title">Bvlgari</h5>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <ul class="list-unstyled">
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/c" title="C">
+                                                            <h5 class="p-name" itemprop="name title">C</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/cacharel" title="Cacharel">
+                                                            <h5 class="p-name" itemprop="name title">Cacharel</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/calvin-klein" title="Calvin Klein">
+                                                            <h5 class="p-name" itemprop="name title">Calvin Klein</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/carolina-herrera" title="Carolina Herrera">
+                                                            <h5 class="p-name" itemprop="name title">Carolina Herrera</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/caron" title="Caron">
+                                                            <h5 class="p-name" itemprop="name title">Caron</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/cartier" title="Cartier">
+                                                            <h5 class="p-name" itemprop="name title">Cartier</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/cerruti" title="Cerruti">
+                                                            <h5 class="p-name" itemprop="name title">Cerruti</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/chanel" title="Chanel">
+                                                            <h5 class="p-name" itemprop="name title">Chanel</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/chloe" title="Chloe">
+                                                            <h5 class="p-name" itemprop="name title">Chloe</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/chopard" title="Chopard">
+                                                            <h5 class="p-name" itemprop="name title">Chopard</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/clinique" title="Clinique">
+                                                            <h5 class="p-name" itemprop="name title">Clinique</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/costume-national" title="Costume National">
+                                                            <h5 class="p-name" itemprop="name title">Costume National</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/creed" title="Creed">
+                                                            <h5 class="p-name" itemprop="name title">Creed</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/cuarzo" title="Cuarzo">
+                                                            <h5 class="p-name" itemprop="name title">Cuarzo</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/d" title="D">
+                                                            <h5 class="p-name" itemprop="name title">D</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/david-yurman" title="David Yurman">
+                                                            <h5 class="p-name" itemprop="name title">David Yurman</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/davidoff" title="Davidoff">
+                                                            <h5 class="p-name" itemprop="name title">Davidoff</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/diesel" title="Diesel">
+                                                            <h5 class="p-name" itemprop="name title">Diesel</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/dior" title="Dior">
+                                                            <h5 class="p-name" itemprop="name title">Dior</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/dkny" title="DKNY">
+                                                            <h5 class="p-name" itemprop="name title">DKNY</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/dolce-gabbana" title="Dolce Gabbana">
+                                                            <h5 class="p-name" itemprop="name title">Dolce Gabbana</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/dsquared" title="Dsquared">
+                                                            <h5 class="p-name" itemprop="name title">Dsquared</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/e" title="E">
+                                                            <h5 class="p-name" itemprop="name title">E</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/elizabet-arden" title="Elizabet Arden">
+                                                            <h5 class="p-name" itemprop="name title">Elizabet Arden</h5>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <ul class="list-unstyled">
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/emper" title="Emper">
+                                                            <h5 class="p-name" itemprop="name title">Emper</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/escada" title="Escada">
+                                                            <h5 class="p-name" itemprop="name title">Escada</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/estee-lauder" title="Estee Lauder">
+                                                            <h5 class="p-name" itemprop="name title">Estee Lauder</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/f" title="F">
+                                                            <h5 class="p-name" itemprop="name title">F</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/fendi" title="Fendi">
+                                                            <h5 class="p-name" itemprop="name title">Fendi</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/ferrari" title="Ferrari">
+                                                            <h5 class="p-name" itemprop="name title">Ferrari</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/g" title="G">
+                                                            <h5 class="p-name" itemprop="name title">G</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/gianfranco-ferre" title="Gianfranco Ferre">
+                                                            <h5 class="p-name" itemprop="name title">Gianfranco Ferre</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/giorgio-armani" title="Giorgio Armani">
+                                                            <h5 class="p-name" itemprop="name title">Giorgio Armani</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/givenchy" title="Givenchy">
+                                                            <h5 class="p-name" itemprop="name title">Givenchy</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/gucci" title="Gucci">
+                                                            <h5 class="p-name" itemprop="name title">Gucci</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/guerlain" title="Guerlain">
+                                                            <h5 class="p-name" itemprop="name title">Guerlain</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/guess" title="Guess">
+                                                            <h5 class="p-name" itemprop="name title">Guess</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/h" title="H">
+                                                            <h5 class="p-name" itemprop="name title">H</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/hermes" title="Hermes">
+                                                            <h5 class="p-name" itemprop="name title">Hermes</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/horseball" title="Horseball">
+                                                            <h5 class="p-name" itemprop="name title">Horseball</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/hugo-boss" title="Hugo Boss">
+                                                            <h5 class="p-name" itemprop="name title">Hugo Boss</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/i" title="I">
+                                                            <h5 class="p-name" itemprop="name title">I</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/issey-miyake" title="Issey Miyake">
+                                                            <h5 class="p-name" itemprop="name title">Issey Miyake</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/j" title="J">
+                                                            <h5 class="p-name" itemprop="name title">J</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/j-lo" title="J.Lo">
+                                                            <h5 class="p-name" itemprop="name title">J.Lo</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/jacques-bogart" title="Jacques Bogart">
+                                                            <h5 class="p-name" itemprop="name title">Jacques Bogart</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/jaguar" title="Jaguar">
+                                                            <h5 class="p-name" itemprop="name title">Jaguar</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/jean-paul-gaultier" title="Jean Paul Gaultier">
+                                                            <h5 class="p-name" itemprop="name title">Jean Paul Gaultier</h5>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <ul class="list-unstyled">
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/jesus-del-pozo" title="Jesus Del Pozo">
+                                                            <h5 class="p-name" itemprop="name title">Jesus Del Pozo</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/john-richmond" title="John Richmond">
+                                                            <h5 class="p-name" itemprop="name title">John Richmond</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/john-varvatos" title="John Varvatos">
+                                                            <h5 class="p-name" itemprop="name title">John Varvatos</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/joop" title="Joop">
+                                                            <h5 class="p-name" itemprop="name title">Joop</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/juicy-couture" title="Juicy Couture">
+                                                            <h5 class="p-name" itemprop="name title">Juicy Couture</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/k" title="K">
+                                                            <h5 class="p-name" itemprop="name title">K</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/kenzo" title="Kenzo">
+                                                            <h5 class="p-name" itemprop="name title">Kenzo</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/korloff" title="Korloff">
+                                                            <h5 class="p-name" itemprop="name title">Korloff</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/l" title="L">
+                                                            <h5 class="p-name" itemprop="name title">L</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/la-perla" title="La Perla">
+                                                            <h5 class="p-name" itemprop="name title">La Perla</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/lacoste" title="Lacoste">
+                                                            <h5 class="p-name" itemprop="name title">Lacoste</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/lalique" title="Lalique">
+                                                            <h5 class="p-name" itemprop="name title">Lalique</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/lancome" title="Lancome">
+                                                            <h5 class="p-name" itemprop="name title">Lancome</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/lanvin" title="Lanvin">
+                                                            <h5 class="p-name" itemprop="name title">Lanvin</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/loewe" title="Loewe">
+                                                            <h5 class="p-name" itemprop="name title">Loewe</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/m" title="M">
+                                                            <h5 class="p-name" itemprop="name title">M</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/marc-jacobs" title="Marc Jacobs">
+                                                            <h5 class="p-name" itemprop="name title">Marc Jacobs</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/miniatures" title="Miniatures">
+                                                            <h5 class="p-name" itemprop="name title">Miniatures</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/mont-blanc" title="Mont Blanc">
+                                                            <h5 class="p-name" itemprop="name title">Mont Blanc</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/moschino" title="Moschino">
+                                                            <h5 class="p-name" itemprop="name title">Moschino</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/n" title="N">
+                                                            <h5 class="p-name" itemprop="name title">N</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/narciso-rodriguez" title="Narciso Rodriguez">
+                                                            <h5 class="p-name" itemprop="name title">Narciso Rodriguez</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/nina-ricci" title="Nina Ricci">
+                                                            <h5 class="p-name" itemprop="name title">Nina Ricci</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/o" title="O">
+                                                            <h5 class="p-name" itemprop="name title">O</h5>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <ul class="list-unstyled">
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/olfactive-studio" title="Olfactive Studio">
+                                                            <h5 class="p-name" itemprop="name title">Olfactive Studio</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/other" title="Other">
+                                                            <h5 class="p-name" itemprop="name title">Other</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/p" title="P">
+                                                            <h5 class="p-name" itemprop="name title">P</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/paco-rabanne" title="Paco Rabanne">
+                                                            <h5 class="p-name" itemprop="name title">Paco Rabanne</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/parfums-de-marly" title="Parfums De Marly">
+                                                            <h5 class="p-name" itemprop="name title">Parfums De Marly</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/police"
+                                                           title="Police">
+                                                            <h5 class="p-name" itemprop="name title">Police</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/porsche" title="Porsche">
+                                                            <h5 class="p-name" itemprop="name title">Porsche</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/prada" title="Prada">
+                                                            <h5 class="p-name" itemprop="name title">Prada</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/prestige-parfum" title="Prestige Parfum">
+                                                            <h5 class="p-name" itemprop="name title">Prestige Parfum</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/q" title="Q">
+                                                            <h5 class="p-name" itemprop="name title">Q</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/r" title="R">
+                                                            <h5 class="p-name" itemprop="name title">R</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/ralph-lauren" title="Ralph Lauren">
+                                                            <h5 class="p-name" itemprop="name title">Ralph Lauren</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/ramon-molvizar" title="Ramon Molvizar">
+                                                            <h5 class="p-name" itemprop="name title">Ramon Molvizar</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/rasasi" title="Rasasi">
+                                                            <h5 class="p-name" itemprop="name title">Rasasi</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/rihanna" title="Rihanna">
+                                                            <h5 class="p-name" itemprop="name title">Rihanna</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/roberto-cavalli" title="Roberto Cavalli">
+                                                            <h5 class="p-name" itemprop="name title">Roberto Cavalli</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/s" title="S">
+                                                            <h5 class="p-name" itemprop="name title">S</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/s-t-dupont" title="S.t Dupont">
+                                                            <h5 class="p-name" itemprop="name title">S.t Dupont</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/salvatore-ferragamo" title="Salvatore Ferragamo">
+                                                            <h5 class="p-name" itemprop="name title">Salvatore Ferragamo</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/shiseido" title="Shiseido">
+                                                            <h5 class="p-name" itemprop="name title">Shiseido</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/steve-mcqueen" title="Steve Mcqueen">
+                                                            <h5 class="p-name" itemprop="name title">Steve Mcqueen</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/t" title="T">
+                                                            <h5 class="p-name" itemprop="name title">T</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/ted-lapidus" title="Ted Lapidus">
+                                                            <h5 class="p-name" itemprop="name title">Ted Lapidus</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/thierry-mugler" title="Thierry Mugler">
+                                                            <h5 class="p-name" itemprop="name title">Thierry Mugler</h5>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <ul class="list-unstyled">
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/tom-ford" title="Tom Ford">
+                                                            <h5 class="p-name" itemprop="name title">Tom Ford</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/tommy" title="Tommy">
+                                                            <h5 class="p-name" itemprop="name title">Tommy</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/trussardi" title="Trussardi">
+                                                            <h5 class="p-name" itemprop="name title">Trussardi</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/u" title="U">
+                                                            <h5 class="p-name" itemprop="name title">U</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/v" title="V">
+                                                            <h5 class="p-name" itemprop="name title">V</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/valentino" title="Valentino">
+                                                            <h5 class="p-name" itemprop="name title">Valentino</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/van-cleef-arpels" title="Van Cleef Arpels">
+                                                            <h5 class="p-name" itemprop="name title">Van Cleef Arpels</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/vera-wang" title="Vera Wang">
+                                                            <h5 class="p-name" itemprop="name title">Vera Wang</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/versace" title="Versace">
+                                                            <h5 class="p-name" itemprop="name title">Versace</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/victoria-secret" title="Victoria Secret">
+                                                            <h5 class="p-name" itemprop="name title">Victoria Secret</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/viktor-rolf" title="Viktor Rolf">
+                                                            <h5 class="p-name" itemprop="name title">Viktor Rolf</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/w" title="W">
+                                                            <h5 class="p-name" itemprop="name title">W</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/x" title="X">
+                                                            <h5 class="p-name" itemprop="name title">X</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/y" title="Y">
+                                                            <h5 class="p-name" itemprop="name title">Y</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/yves-saint-laurent" title="Yves Saint Laurent">
+                                                            <h5 class="p-name" itemprop="name title">Yves Saint Laurent</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/z" title="Z">
+                                                            <h5 class="p-name" itemprop="name title">Z</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/zara" title="Zara">
+                                                            <h5 class="p-name" itemprop="name title">Zara</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/zippo" title="Zippo">
+                                                            <h5 class="p-name" itemprop="name title">Zippo</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/zirh" title="Zirh">
+                                                            <h5 class="p-name" itemprop="name title">Zirh</h5>
+                                                        </a>
+                                                    </li>
+
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop/category" title="همه برند ها">
+                                                            <h5 class="p-name" itemprop="name title">همه برند ها</h5>
+                                                        </a>
+                                                    </li>
+                                                    <li itemscope itemtype="https://schema.org/Brand">
+                                                        <a itemprop="url" href="https://www.safand.com/shop" title="همه محصولات">
+                                                            <h5 class="p-name" itemprop="name title">همه محصولات</h5>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li itemprop="name">
+                                <a itemprop="url" title="وبلاگ سفند" href="<?php echo Pi::url($this->url('home')); ?>blog"><i class="fa fa-book" aria-hidden="true"></i> وبلاگ سفند</a>
+                            </li>
+                            <li itemprop="name">
+                                <a itemprop="url" title="درباره ما" href="<?php echo Pi::url($this->url('home')); ?>page/about"><i class="fa fa-user" aria-hidden="true"></i> درباره ما</a>
+                            </li>
+                            <li itemprop="name">
+                                <a itemprop="url" title="تماس با ما" href="<?php echo Pi::url($this->url('home')); ?>contact"><i class="fa fa-envelope" aria-hidden="true"></i> تماس با ما</a>
+                            </li>
+                        </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><?php echo $this->widget('shop-basket'); ?></li>
+                        </ul>
+
+
+
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+<section class="pi-section">
+    <div class="container">
+        <div class="pi-main-container">
+            <?php if ($breadcrumbs) { echo $breadcrumbs; } ?>
+            <!-- Flash messenger -->
+            <?php include $this->template('flash-messenger'); ?>
+            <!-- Top head zone -->
+            <?php if (!empty($blocks['0'])) { ?>
+                <div class="pi-zone-0">
+                    <?php foreach ($blocks['0'] as $block) {
+                        include $blockTemplate;
+                    } ?>
+                </div>
+            <?php } ?>
+            <div class="row">
+                <!-- Left zone -->
+                <?php if (!empty($blocks['1'])) { ?>
+                    <div class="pi-zone-1 col-xs-3">
+                        <?php foreach ($blocks['1'] as $block) {
+                            include $blockTemplate;
+                        } ?>
+                    </div>
+                <?php } ?>
+                <div class="<?php
+                if (isset($blocks['1']) && isset($blocks['8'])) {
+                    echo 'col-xs-3';
+                } elseif (isset($blocks['1']) || isset($blocks['8'])) {
+                    echo 'col-xs-9';
+                } else {
+                    echo 'col-xs-12';
+                }
+                ?>">
+                    <!-- Center top zone -->
+                    <?php if (isset($blocks['2'])) { ?>
+                        <div class="pi-zone-2">
+                            <?php foreach ($blocks['2'] as $block) {
+                                include $blockTemplate;
+                            } ?>
+                        </div>
+                    <?php } ?>
+                    <?php if (isset($blocks['3']) || isset($blocks['4'])) { ?>
+                        <div class="row">
+                            <div class="col-xs-3 pi-zone-3">
+                                <?php
+                                if (isset($blocks['3'])) {
+                                    foreach ($blocks['3'] as $block) {
+                                        include $blockTemplate;
+                                    }
+                                }
+                                ?>
+                            </div>
+                            <div class="col-xs-9 pi-zone-4">
+                                <?php
+                                if (isset($blocks['4'])) {
+                                    foreach ($blocks['4'] as $block) {
+                                        include $blockTemplate;
+                                    }
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    <?php } ?>
+                    <!-- Module content starts -->
+                    <?php if (!empty($content)) { ?>
+                        <div class="<?php echo $module; ?>">
+                            <div class="pi-module-content" ng-app="<?php echo $module; ?>">
+                                <?php echo $content; ?>
+                            </div>
+                            <?php echo Pi::service('comment')->load(array('options' => array('type' => 'js'))); ?>
+                        </div>
+                    <?php } ?>
+                    <!-- Module content ends -->
+                    <?php if (isset($blocks['5']) || isset($blocks['6'])) { ?>
+                        <div class="row">
+                            <div class="col-xs-3 pi-zone-5">
+                                <?php
+                                if (isset($blocks['5'])) {
+                                    foreach ($blocks['5'] as $block) {
+                                        include $blockTemplate;
+                                    }
+                                }
+                                ?>
+                            </div>
+                            <div class="col-xs-9 pi-zone-6">
+                                <?php
+                                if (isset($blocks['6'])) {
+                                    foreach ($blocks['6'] as $block) {
+                                        include $blockTemplate;
+                                    }
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    <?php } ?>
+                    <!-- Center bottom zone -->
+                    <?php if (isset($blocks['7'])) { ?>
+                        <div class="pi-zone-7">
+                            <?php foreach ($blocks['7'] as $block) {
+                                include $blockTemplate;
+                            } ?>
+                        </div>
+                    <?php } ?>
+                </div>
+                <!-- Right zone -->
+                <?php if (isset($blocks['8'])) { ?>
+                    <div class="col-xs-3 pi-zone-8">
+                        <?php foreach ($blocks['8'] as $block) {
+                            include $blockTemplate;
+                        } ?>
+                    </div>
+                <?php } ?>
+            </div>
+            <!-- Bottom foot zone -->
+            <?php if (isset($blocks['99'])) { ?>
+                <div class="pi-zone-99">
+                    <?php foreach ($blocks['99'] as $block) {
+                        include $blockTemplate;
+                    } ?>
+                </div>
+            <?php } ?>
+        </div>
+    </div>
+</section>
+<footer class="pi-footer">
+    <div class="pi-footer-social">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <div class="pi-footer-social-list">
+                        <ul class="list-inline">
+                            <li class="pi-footer-social-twitter">
+                                <a title="تویتر" href="https://twitter.com/safand_"><i class="fa fa-twitter"></i></a>
+                            </li>
+                            <li class="pi-footer-social-facebook">
+                                <a title="فیسبوک" href="https://www.facebook.com/Safand"><i class="fa fa-facebook"></i></a>
+                            </li>
+                            <li class="pi-footer-social-pinterest">
+                                <a title="پین‌ترست" href="https://www.pinterest.com/safand"><i class="fa fa-pinterest"></i></a>
+                            </li>
+                            <li class="pi-footer-social-instagram">
+                                <a title="اینستا گرام" href="https://www.instagram.com/safandperfume"><i class="fa fa-instagram"></i></a>
+                            </li>
+                            <li class="pi-footer-social-telegram">
+                                <a title="کانال تلگرام" href="https://www.telegram.me/safandperfumes"><i class="fa fa-paper-plane"></i></a>
+                            </li>
+                            <li class="pi-footer-social-gplus">
+                                <a title="گوگل پلاس" href="https://plus.google.com/u/0/109421826581359306046" rel="Publisher"><i class="fa fa-google-plus"></i></a>
+                            </li>
+                            <li class="pi-footer-social-rss">
+                                <a title="خوارک آخرین محصولات فروشگاه" href="https://www.safand.com/feed/shop"><i class="fa fa-rss"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pi-footer-bottom">
+        <div class="container">
+            <div class="row clearfix">
+                <div class="col-xs-3">
+                    <div class="pi-footer-title">
+                        <h2>گواهی نامه ها</h2>
+                    </div>
+                    <div class="pi-footer-content clearfix">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <a target="_blank" title="نماد اعتماد الکترونیک" href="http://www.safand.com/crt.php">
+                                    <img class="img-responsive" alt='نماد اعتماد الکترونیک' src='https://www.safand.com/upload/image/enamad-logo.png' />
+                                </a>
+                            </div>
+                            <div class="col-xs-6">
+                                <img class="img-responsive" alt='پرداخت آنلاین بانک ملت' src='https://www.safand.com/upload/image/behpardakht.png' />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-9">
+                    <div class="pi-footer-title">
+                        <h2>سفند فروشگاه عطر و ادکلن</h2>
+                    </div>
+                    <div class="pi-footer-content">
+                        <p>سفند امیدوار است در ابتدا دانشنامه ای بی نظیر را برای شما به وجود بیاورد و این امر محقق نخواهد شد مگر با همکاری متقابل شما در ارسال مقالات و اخبارهای مربوطه که باعث افزایش دانش سایر کاربران گرامی نیز خواهد بود . همچنین با ارائه ی قیمت های روز عطر و ادکلن و عرضه محصولات اصل با ضمانت سفند و مشخصات تکمیلی مندرج در توضیحات عطرها ، شما می توانید خریدی مطمئن و آسان را از سایت سفند داشته باشید و افتخار همراهیتان را به ما هدیه نمائید .</p>
+                        <p> تمامی کالاها و خدمات این وب‌سایت، حسب مورد دارای مجوزهای لازم از مراجع مربوطه می‌باشند و فعالیت‌های این وب‌سایت تابع قوانین و مقررات جمهوری اسلامی ایران است. </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="col-xs-8 text-left">
+                    <ul class="list-inline">
+                        <li><a title="شرایط و مقررات" href="<?php echo Pi::url($this->url('home')); ?>page/terms">شرایط و مقررات</a></li>
+                        <li><a title="راهنمای خرید" href="<?php echo Pi::url($this->url('home')); ?>page/help">راهنمای خرید</a></li>
+                        <li><a title="عضویت در خبرنامه" href="<?php echo Pi::url($this->url('home')); ?>page/newsletter">عضویت در خبرنامه</a></li>
+                        <li><a title="درباره ما" href="<?php echo Pi::url($this->url('home')); ?>page/about">درباره ما</a></li>
+                        <li><a title="تماس با ما" href="<?php echo Pi::url($this->url('home')); ?>contact">تماس با ما</a></li>
+                    </ul>
+                </div>
+                <div class="col-xs-4 text-right">تمام حقوق مادی و معنوی برای وب سایت <a title="سفند" href="https://www.safand.com">سفند</a> محفوظ است.</div>
+            </div>
+        </div>
+    </div>
+</footer>
+<script type="application/ld+json">
+{
+    "@context" : "http://schema.org",
+    "@type" : "WebSite",
+    "name" : "<?php echo _escape($sitename); ?>",
+    "alternateName" : "فروشگاه اینترنتی,عطر و ادکلن,سفند,خرید عطر,فروش عطر,عطر زنانه,عطر مردانه,عطر ارزان,فروشگاه عطر و ادکلن,فروشگاه آنلاین",
+    "url" : "https://www.safand.com",
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://www.safand.com/search/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+    }
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context" : "http://schema.org",
+    "@type" : "Organization",
+    "name" : "<?php echo _escape($sitename); ?>",
+    "logo" : "<?php echo $this->logo(); ?>",
+    "url" : "https://www.safand.com",
+    "sameAs" : [
+        "https://www.twitter.com/safand_",
+        "https://www.facebook.com/Safand",
+        "https://www.pinterest.com/safand",
+        "https://www.instagram.com/safandperfume",
+        "https://plus.google.com/u/0/109421826581359306046",
+    ]
+}
+</script>
+</body>
+</html>
