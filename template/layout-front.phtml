@@ -887,21 +887,18 @@ $platform = Pi::service('browser')->getPlatform();
                                 </ul>
                             </li>
                             <li itemprop="name">
-                                <a itemprop="url" title="وبلاگ سفند" href="<?php echo Pi::url($this->url('home')); ?>blog"><i class="fa fa-book" aria-hidden="true"></i> وبلاگ سفند</a>
+                                <a itemprop="url" title="وبلاگ سفند" href="<?php echo Pi::url($this->url('home')); ?>/blog"><i class="fa fa-book" aria-hidden="true"></i> وبلاگ سفند</a>
                             </li>
                             <li itemprop="name">
-                                <a itemprop="url" title="درباره ما" href="<?php echo Pi::url($this->url('home')); ?>page/about"><i class="fa fa-user" aria-hidden="true"></i> درباره ما</a>
+                                <a itemprop="url" title="درباره ما" href="<?php echo Pi::url($this->url('home')); ?>/page/about"><i class="fa fa-user" aria-hidden="true"></i> درباره ما</a>
                             </li>
                             <li itemprop="name">
-                                <a itemprop="url" title="تماس با ما" href="<?php echo Pi::url($this->url('home')); ?>contact"><i class="fa fa-envelope" aria-hidden="true"></i> تماس با ما</a>
+                                <a itemprop="url" title="تماس با ما" href="<?php echo Pi::url($this->url('home')); ?>/contact"><i class="fa fa-envelope" aria-hidden="true"></i> تماس با ما</a>
                             </li>
                         </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><?php echo $this->widget('shop-basket'); ?></li>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><?php echo $this->widget('shop-basket'); ?></li>
                         </ul>
-
-
-
                     </div>
                 </nav>
             </div>
@@ -1098,11 +1095,11 @@ $platform = Pi::service('browser')->getPlatform();
             <div class="row clearfix">
                 <div class="col-xs-8 text-left">
                     <ul class="list-inline">
-                        <li><a title="شرایط و مقررات" href="<?php echo Pi::url($this->url('home')); ?>page/terms">شرایط و مقررات</a></li>
-                        <li><a title="راهنمای خرید" href="<?php echo Pi::url($this->url('home')); ?>page/help">راهنمای خرید</a></li>
-                        <li><a title="عضویت در خبرنامه" href="<?php echo Pi::url($this->url('home')); ?>page/newsletter">عضویت در خبرنامه</a></li>
-                        <li><a title="درباره ما" href="<?php echo Pi::url($this->url('home')); ?>page/about">درباره ما</a></li>
-                        <li><a title="تماس با ما" href="<?php echo Pi::url($this->url('home')); ?>contact">تماس با ما</a></li>
+                        <li><a title="شرایط و مقررات" href="<?php echo Pi::url($this->url('home')); ?>/page/terms">شرایط و مقررات</a></li>
+                        <li><a title="راهنمای خرید" href="<?php echo Pi::url($this->url('home')); ?>/page/help">راهنمای خرید</a></li>
+                        <li><a title="عضویت در خبرنامه" href="<?php echo Pi::url($this->url('home')); ?>/page/newsletter">عضویت در خبرنامه</a></li>
+                        <li><a title="درباره ما" href="<?php echo Pi::url($this->url('home')); ?>/page/about">درباره ما</a></li>
+                        <li><a title="تماس با ما" href="<?php echo Pi::url($this->url('home')); ?>/contact">تماس با ما</a></li>
                     </ul>
                 </div>
                 <div class="col-xs-4 text-right">تمام حقوق مادی و معنوی برای وب سایت <a title="سفند" href="https://www.safand.com">سفند</a> محفوظ است.</div>
