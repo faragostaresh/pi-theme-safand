@@ -31,7 +31,7 @@ $this->css($this->assetTheme('css/front.css'));
 $this->css($this->assetLocale('locale.css'));
 
 // Load front.js on footer
-//$this->js($this->assetTheme('js/front.js'));
+$this->footScript()->appendFile($this->assetTheme('js/front.js'));
 
 // Apple icons
 // Apple icon for iphone
@@ -59,12 +59,18 @@ $this->headLink(array(
 ));
 
 // Meta Viewport Tag
-//$this->headMeta('width=device-width, initial-scale=1.0', 'viewport');
+$this->headMeta('width=device-width, initial-scale=1.0', 'viewport');
 
 // Explicitly load favicon
 $this->headLink(array(
     'rel'   => 'shortcut icon',
+    'type'  => 'image/x-icon',
     'href'  => $this->favicon(),
+));
+$this->headLink(array(
+    'rel'   => 'shortcut icon',
+    'type'  => 'image/png',
+    'href'  => $this->favicon('favicon.png'),
 ));
 
 // Load google analytics code
@@ -89,9 +95,6 @@ $breadcrumbs = $this->breadcrumb(
         )
     ))
 );
-
-// Get platform
-$platform = Pi::service('browser')->getPlatform();
 ?>
 <!DOCTYPE HTML>
 <html lang="<?php echo $locale; ?>">
@@ -99,54 +102,59 @@ $platform = Pi::service('browser')->getPlatform();
     <meta charset="<?php echo $charset; ?>">
     <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 </head>
-<body id="pi-<?php echo $module; ?><?php if (in_array($platform, array('Android', 'Ios', 'iPhone', 'iPad'))) { echo ' pi-mobile';} ?>" class="pi-locale-<?php echo $locale; ?>" itemscope itemtype="http://schema.org/WebPage">
+<body id="pi-<?php echo $module; ?>" class="pi-locale-<?php echo $locale; ?> pi-front" itemscope itemtype="https://schema.org/WebPage">
 <header class="pi-header">
     <div class="pi-header-body">
         <div class="container">
             <div class="row">
-                <div class="col-xs-6">
-                    <div class="clearfix col-xs-12">
+                <div class="col-md-3">
+                    <?php if ($module == 'system') { ?>
+                        <h1>
+                            <a href="https://www.safand.com" title="<?php echo _escape($sitename); ?>">
+                                <img src="<?php echo $this->assetTheme('image/logo.png'); ?>" alt="<?php echo _escape($sitename); ?>">
+                            </a>
+                        </h1>
+                    <?php } else { ?>
+                        <h2>
+                            <a href="https://www.safand.com" title="<?php echo _escape($sitename); ?>">
+                                <img src="<?php echo $this->assetTheme('image/logo.png'); ?>" alt="<?php echo _escape($sitename); ?>">
+                            </a>
+                        </h2>
+                    <?php } ?>
+                </div>
+                <div class="col-md-9">
+                    <div class="clearfix">
                         <?php echo $this->widget('system-user-bar'); ?>
                     </div>
-                    <div class="navbar-form col-xs-12">
+                    <div class="clearfix col-md-offset-1 col-md-3 col-xs-12">
                         <?php echo $this->widget('search-search'); ?>
-                    </div>
-                </div>
-                <div class="col-xs-6">
-                    <div class="pi-header-logo text-right">
-                        <?php if ($module == 'system') { ?>
-                            <h1 itemprop="name">
-                                <a title="<?php echo _escape($sitename); ?>" href="<?php echo Pi::url($this->url('home')); ?>">
-                                    <img src="<?php echo $this->logo(); ?>" alt="<?php echo _escape($sitename); ?>">
-                                </a>
-                            </h1>
-                        <?php } else { ?>
-                            <h2 itemprop="name">
-                                <a title="<?php echo _escape($sitename); ?>" href="<?php echo Pi::url($this->url('home')); ?>">
-                                    <img src="<?php echo $this->logo(); ?>" alt="<?php echo _escape($sitename); ?>">
-                                </a>
-                            </h2>
-                        <?php } ?>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <nav class="navbar navbar-inverse yamm" itemscope itemtype="http://schema.org/SiteNavigationElement">
+    <nav class="navbar navbar-inverse yamm" itemscope itemtype="https://schema.org/SiteNavigationElement">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
                     <div class="navbar-header">
                         <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                             <i class="fa fa-bars"></i>
                         </button>
+                        <a class="navbar-brand" href="https://www.safand.com">سفند</a>
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                             <li itemprop="name">
-                                <a itemprop="url" title="صفحه اول" href="<?php echo Pi::url($this->url('home')); ?>"><i class="fa fa-home" aria-hidden="true"></i> صفحه اول</a>
+                                <a itemprop="url" title="صفحه اول" href="https://www.safand.com"><i class="fa fa-home" aria-hidden="true"></i> صفحه اول</a>
                             </li>
-                            <li class="dropdown yamm-fw">
+                            <li itemprop="name">
+                                <a itemprop="url" href="https://www.safand.com/shop" title="عطر ها"><i class="fa fa-gift" aria-hidden="true"></i> عطر ها</a>
+                            </li>
+                            <li class="visible-xs" itemprop="name">
+                                <a itemprop="url" href="https://www.safand.com/shop/category" title="برند ها"><i class="fa fa-gift" aria-hidden="true"></i> برند ها</a>
+                            </li>
+                            <li class="hidden-xs dropdown yamm-fw">
                                 <a aria-expanded="false" itemprop="url" title="برند ها" data-toggle="dropdown" class="dropdown-toggle"><span itemprop="name"><i class="fa fa-gift" aria-hidden="true"></i> برند ها</span> <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li class="grid-menu">
@@ -869,7 +877,6 @@ $platform = Pi::service('browser')->getPlatform();
                                                             <h5 class="p-name" itemprop="name title">Zirh</h5>
                                                         </a>
                                                     </li>
-
                                                     <li itemscope itemtype="https://schema.org/Brand">
                                                         <a itemprop="url" href="https://www.safand.com/shop/category" title="همه برند ها">
                                                             <h5 class="p-name" itemprop="name title">همه برند ها</h5>
@@ -887,23 +894,23 @@ $platform = Pi::service('browser')->getPlatform();
                                 </ul>
                             </li>
                             <li itemprop="name">
-                                <a itemprop="url" title="وبلاگ سفند" href="<?php echo Pi::url($this->url('home')); ?>/blog"><i class="fa fa-book" aria-hidden="true"></i> وبلاگ سفند</a>
+                                <a itemprop="url" title="وبلاگ سفند" href="https://www.safand.com/news"><i class="fa fa-book" aria-hidden="true"></i> وبلاگ سفند</a>
                             </li>
                             <li itemprop="name">
-                                <a itemprop="url" title="درباره ما" href="<?php echo Pi::url($this->url('home')); ?>/page/about"><i class="fa fa-user" aria-hidden="true"></i> درباره ما</a>
+                                <a itemprop="url" title="درباره ما" href="https://www.safand.com/page/about"><i class="fa fa-user" aria-hidden="true"></i> درباره ما</a>
                             </li>
                             <li itemprop="name">
-                                <a itemprop="url" title="تماس با ما" href="<?php echo Pi::url($this->url('home')); ?>/contact"><i class="fa fa-envelope" aria-hidden="true"></i> تماس با ما</a>
+                                <a itemprop="url" title="تماس با ما" href="https://www.safand.com/contact"><i class="fa fa-envelope" aria-hidden="true"></i> تماس با ما</a>
                             </li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li><?php echo $this->widget('shop-basket'); ?></li>
                         </ul>
                     </div>
-                </nav>
+                </div>
             </div>
         </div>
-    </div>
+    </nav>
 </header>
 <section class="pi-section">
     <div class="container">
@@ -922,7 +929,7 @@ $platform = Pi::service('browser')->getPlatform();
             <div class="row">
                 <!-- Left zone -->
                 <?php if (!empty($blocks['1'])) { ?>
-                    <div class="pi-zone-1 col-xs-3">
+                    <div class="pi-zone-1 col-md-4">
                         <?php foreach ($blocks['1'] as $block) {
                             include $blockTemplate;
                         } ?>
@@ -930,11 +937,11 @@ $platform = Pi::service('browser')->getPlatform();
                 <?php } ?>
                 <div class="<?php
                 if (isset($blocks['1']) && isset($blocks['8'])) {
-                    echo 'col-xs-3';
+                    echo 'col-md-4';
                 } elseif (isset($blocks['1']) || isset($blocks['8'])) {
-                    echo 'col-xs-9';
+                    echo 'col-md-8';
                 } else {
-                    echo 'col-xs-12';
+                    echo 'col-md-12';
                 }
                 ?>">
                     <!-- Center top zone -->
@@ -947,7 +954,7 @@ $platform = Pi::service('browser')->getPlatform();
                     <?php } ?>
                     <?php if (isset($blocks['3']) || isset($blocks['4'])) { ?>
                         <div class="row">
-                            <div class="col-xs-3 pi-zone-3">
+                            <div class="col-md-3 pi-zone-3">
                                 <?php
                                 if (isset($blocks['3'])) {
                                     foreach ($blocks['3'] as $block) {
@@ -956,7 +963,7 @@ $platform = Pi::service('browser')->getPlatform();
                                 }
                                 ?>
                             </div>
-                            <div class="col-xs-9 pi-zone-4">
+                            <div class="col-md-9 pi-zone-4">
                                 <?php
                                 if (isset($blocks['4'])) {
                                     foreach ($blocks['4'] as $block) {
@@ -970,7 +977,7 @@ $platform = Pi::service('browser')->getPlatform();
                     <!-- Module content starts -->
                     <?php if (!empty($content)) { ?>
                         <div class="<?php echo $module; ?>">
-                            <div class="pi-module-content" ng-app="<?php echo $module; ?>">
+                            <div class="pi-module-content" data-ng-app="<?php echo $module; ?>">
                                 <?php echo $content; ?>
                             </div>
                             <?php echo Pi::service('comment')->load(array('options' => array('type' => 'js'))); ?>
@@ -979,7 +986,7 @@ $platform = Pi::service('browser')->getPlatform();
                     <!-- Module content ends -->
                     <?php if (isset($blocks['5']) || isset($blocks['6'])) { ?>
                         <div class="row">
-                            <div class="col-xs-3 pi-zone-5">
+                            <div class="col-md-3 pi-zone-5">
                                 <?php
                                 if (isset($blocks['5'])) {
                                     foreach ($blocks['5'] as $block) {
@@ -988,7 +995,7 @@ $platform = Pi::service('browser')->getPlatform();
                                 }
                                 ?>
                             </div>
-                            <div class="col-xs-9 pi-zone-6">
+                            <div class="col-md-9 pi-zone-6">
                                 <?php
                                 if (isset($blocks['6'])) {
                                     foreach ($blocks['6'] as $block) {
@@ -1010,7 +1017,7 @@ $platform = Pi::service('browser')->getPlatform();
                 </div>
                 <!-- Right zone -->
                 <?php if (isset($blocks['8'])) { ?>
-                    <div class="col-xs-3 pi-zone-8">
+                    <div class="col-md-3 pi-zone-8">
                         <?php foreach ($blocks['8'] as $block) {
                             include $blockTemplate;
                         } ?>
@@ -1032,7 +1039,7 @@ $platform = Pi::service('browser')->getPlatform();
     <div class="pi-footer-social">
         <div class="container">
             <div class="row">
-                <div class="col-xs-12 text-center">
+                <div class="col-md-12 text-center">
                     <div class="pi-footer-social-list">
                         <ul class="list-inline">
                             <li class="pi-footer-social-twitter">
@@ -1065,24 +1072,24 @@ $platform = Pi::service('browser')->getPlatform();
     <div class="pi-footer-bottom">
         <div class="container">
             <div class="row clearfix">
-                <div class="col-xs-3">
+                <div class="col-md-3">
                     <div class="pi-footer-title">
                         <h2>گواهی نامه ها</h2>
                     </div>
                     <div class="pi-footer-content clearfix">
                         <div class="row">
-                            <div class="col-xs-6">
+                            <div class="col-md-6 col-xs-6">
                                 <a target="_blank" title="نماد اعتماد الکترونیک" href="http://www.safand.com/crt.php">
                                     <img class="img-responsive" alt='نماد اعتماد الکترونیک' src='https://www.safand.com/upload/image/enamad-logo.png' />
                                 </a>
                             </div>
-                            <div class="col-xs-6">
+                            <div class="col-md-6 col-xs-6">
                                 <img class="img-responsive" alt='پرداخت آنلاین بانک ملت' src='https://www.safand.com/upload/image/behpardakht.png' />
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-9">
+                <div class="col-md-9">
                     <div class="pi-footer-title">
                         <h2>سفند فروشگاه عطر و ادکلن</h2>
                     </div>
@@ -1093,23 +1100,23 @@ $platform = Pi::service('browser')->getPlatform();
                 </div>
             </div>
             <div class="row clearfix">
-                <div class="col-xs-8 text-left">
+                <div class="col-md-8 text-left">
                     <ul class="list-inline">
-                        <li><a title="شرایط و مقررات" href="<?php echo Pi::url($this->url('home')); ?>/page/terms">شرایط و مقررات</a></li>
-                        <li><a title="راهنمای خرید" href="<?php echo Pi::url($this->url('home')); ?>/page/help">راهنمای خرید</a></li>
-                        <li><a title="عضویت در خبرنامه" href="<?php echo Pi::url($this->url('home')); ?>/page/newsletter">عضویت در خبرنامه</a></li>
-                        <li><a title="درباره ما" href="<?php echo Pi::url($this->url('home')); ?>/page/about">درباره ما</a></li>
-                        <li><a title="تماس با ما" href="<?php echo Pi::url($this->url('home')); ?>/contact">تماس با ما</a></li>
+                        <li><a title="شرایط و مقررات" href="https://www.safand.com/page/terms">شرایط و مقررات</a></li>
+                        <li><a title="راهنمای خرید" href="https://www.safand.com/page/help">راهنمای خرید</a></li>
+                        <li><a title="عضویت در خبرنامه" href="https://www.safand.com/page/newsletter">عضویت در خبرنامه</a></li>
+                        <li><a title="درباره ما" href="https://www.safand.com/page/about">درباره ما</a></li>
+                        <li><a title="تماس با ما" href="https://www.safand.com/contact">تماس با ما</a></li>
                     </ul>
                 </div>
-                <div class="col-xs-4 text-right">تمام حقوق مادی و معنوی برای وب سایت <a title="سفند" href="https://www.safand.com">سفند</a> محفوظ است.</div>
+                <div class="col-md-4 text-right">تمام حقوق مادی و معنوی برای وب سایت <a title="سفند" href="https://www.safand.com">سفند</a> محفوظ است.</div>
             </div>
         </div>
     </div>
 </footer>
 <script type="application/ld+json">
 {
-    "@context" : "http://schema.org",
+    "@context" : "https://schema.org",
     "@type" : "WebSite",
     "name" : "<?php echo _escape($sitename); ?>",
     "alternateName" : "فروشگاه اینترنتی,عطر و ادکلن,سفند,خرید عطر,فروش عطر,عطر زنانه,عطر مردانه,عطر ارزان,فروشگاه عطر و ادکلن,فروشگاه آنلاین",
@@ -1123,7 +1130,7 @@ $platform = Pi::service('browser')->getPlatform();
 </script>
 <script type="application/ld+json">
 {
-    "@context" : "http://schema.org",
+    "@context" : "https://schema.org",
     "@type" : "Organization",
     "name" : "<?php echo _escape($sitename); ?>",
     "logo" : "<?php echo $this->logo(); ?>",
